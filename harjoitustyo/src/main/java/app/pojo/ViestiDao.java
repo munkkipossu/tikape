@@ -23,7 +23,7 @@ public class ViestiDao {
     
     public List<Alue> getAlueet() throws SQLException {
         List<Alue> rivit = new ArrayList<>();
-        String kysely="SELECT Alue.nimi, count(Viesti.viestiId), max(Viesti,aika) From Viesti " 
+        String kysely="SELECT Alue.id, Alue.nimi, count(Viesti.viestiId), max(Viesti,aika) From Viesti " 
                 + "join Ketju on Viesti.ketjuId=Ketju.ketjuId "
                 + "join Alue on Ketju.alueId=Alue.alueId"
                 + "group by Alue.alueID order by Alue.nimi ASC;";
@@ -34,11 +34,12 @@ public class ViestiDao {
         ResultSet rs = stmt.executeQuery();
         
         while (rs.next()){
-        String nimi=rs.getString(1);
-        int lkm=rs.getInt(2);
-        Timestamp aika=rs.getTimestamp(3);
+        int alueId=rs.getInt(1);
+        String nimi=rs.getString(2);
+        int lkm=rs.getInt(3);
+        Timestamp aika=rs.getTimestamp(4);
         
-        rivit.add(new Alue(nimi,lkm,aika));
+        rivit.add(new Alue(alueId,nimi,lkm,aika));
         }
         stmt.close();
         rs.close();
@@ -47,7 +48,7 @@ public class ViestiDao {
     
     public List<Ketju> getKetjut(int alueId, int offSet) throws SQLException {
         List<Ketju> rivit = new ArrayList<>();
-        String kysely="SELECT Ketju.avaus, count(Viesti.viestiId), max(Viesti,aika) as uusin From Viesti " 
+        String kysely="SELECT Ketju.id, Ketju.avaus, count(Viesti.viestiId), max(Viesti,aika) as uusin From Viesti " 
                 + "join Ketju on Viesti.ketjuId=Ketju.ketjuId "
                 + "join Alue on Ketju.alueId=Alue.alueId"
                 + "where Alue.alueid= ?"
@@ -61,11 +62,12 @@ public class ViestiDao {
         ResultSet rs = stmt.executeQuery();
         
         while (rs.next()){
-        String avaus=rs.getString(1);
-        int lkm=rs.getInt(2);
-        Timestamp aika=rs.getTimestamp(3);
+        int ketjuId=rs.getInt(1);
+        String avaus=rs.getString(2);
+        int lkm=rs.getInt(3);
+        Timestamp aika=rs.getTimestamp(4);
         
-        rivit.add(new Ketju(avaus,lkm,aika));
+        rivit.add(new Ketju(ketjuId,avaus,lkm,aika));
         }
         stmt.close();
         rs.close();
