@@ -1,4 +1,4 @@
-package tikape.harjoitustyo;
+package app;
 
 import java.sql.*;
 
