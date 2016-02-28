@@ -1,4 +1,4 @@
-/*  YLEISNÄKYMÄ aka. Aloitussivu */
+/*  YLEISNÄKYMÄ aka. Aloitussivu */ (Alue ristiriitaisessa käytössä)
 SELECT nimi as Alue, Count(viestiId) as Viestejä_yhteensä, max(datetime(aika)) as Viimeisin_viesti
 FROM Alue
 JOIN Ketju
