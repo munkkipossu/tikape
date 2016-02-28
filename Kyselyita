@@ -1,0 +1,67 @@
+/*  YLEISNÄKYMÄ aka. Aloitussivu */
+SELECT nimi as Alue, Count(viestiId) as Viestejä_yhteensä, max(datetime(aika)) as Viimeisin_viesti
+FROM Alue
+JOIN Ketju
+ON Ketju.alueId=Alue.alueId
+JOIN Viesti
+ON Viesti.ketjuId=Ketju.ketjuId
+GROUP BY Alue
+ORDER BY Alue DESC;
+/* Yllä oleva kysely antaa halutut tiedot mutta ei halutsussa muodossa. Vrt. Viestejä_yhteensä vs. Viestejä yhteensä. Also, tässä tulostuksessa näkyvät myös sekunnit. Nämä täytynee ohjelman hoitaa haluttuun muotoon  */
+
+/* Alue 'Tietojenkäsittelytiede' klikattu: näytetään 10 viimeisintä avausta alla  */
+
+SELECT avaus as Alue_Tietojenkäsittelytiede, COUNT(viestiId) as Viestejä, max(datetime(aika)) as Viimeisin_viesti
+FROM Alue
+JOIN Ketju
+ON Alue.alueId=Ketju.alueId
+JOIN Viesti
+ON Viesti.ketjuId=Ketju.ketjuId
+WHERE Alue.nimi = 'Tietojenkäsittelytiede'
+GROUP BY avaus
+ORDER BY Viimeisin_viesti DESC
+LIMIT 10;
+/* kuten edellä, kaikki tulostusmuodot eivät ole halutun laisia, mutta info on haluttu */
+
+/* Seuraava antaa kaikki avaukseen/ketjuun liittyvät viesti  */
+
+SELECT teksti as Tikape, nimi
+FROM Viesti
+JOIN Ketju
+ON Ketju.ketjuId=Viesti.ketjuID
+JOIN Kayttaja
+ON Kayttaja.kayttajaId = Viesti.KayttajaId
+WHERE Ketju.avaus='Tikape';
+/* hienosäätö täytynee tehdä ohjelmalla jotta tulostus on halutun lainen*/
+
+
+/* BOONUKSIA */
+
+/* SEURAAVA KYSELY ANTAA ANNETUN KÄYTTÄJÄN KAIKKI VIESTIT */
+
+SELECT viestiId, ketjuId, datetime(aika), teksti
+FROM Viesti V
+JOIN Kayttaja K
+ON V.kayttajaId=K.kayttajaId
+WHERE K.nimi = 'Einstein';
+
+
+/*SEURAAVA KYSELY ANTAA KAIKKI ALUEESEEN LIITTYVÄT AVAUKSET */
+
+SELECT Avaus
+FROM Ketju
+JOIN Alue
+ON Alue.alueId=Ketju.alueId
+WHERE Alue.nimi = 'Tietojenkäsittelytiede'; /* ALTERNATIVE alueId=x */
+
+/* SEURAAVA KYSELY ANTAA KAIKKI AVAUKSEEN/KETJUUN LIITTYVÄT VIESTIT */
+
+SELECT nimi, teksti, datetime(aika)
+FROM Viesti
+JOIN Ketju
+ON Ketju.ketjuId=Viesti.ketjuId
+JOIN Kayttaja
+ON Kayttaja.kayttajaId=Viesti.kayttajaId
+WHERE avaus='Tikape';		 /* ALTERNATIVE alueId=x */
+
+
