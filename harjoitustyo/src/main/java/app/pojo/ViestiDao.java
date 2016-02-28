@@ -115,6 +115,10 @@ public class ViestiDao {
         stmt.close();
         return palaute;
     }
+    
+     public void connectionClose() throws SQLException {
+        yhteys.close();
+    }
 }
 
 
