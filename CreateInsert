@@ -1,0 +1,148 @@
+CREATE TABLE Kayttaja (
+kayttajaId integer PRIMARY KEY AUTOINCREMENT, /* käyttäjä syöttää nimen, ohjelma tarkistaa onko se jo käytössä, jos ei -->luo uuden */
+nimi varchar(30) UNIQUE
+);
+
+CREATE TABLE Viesti (
+viestiId integer PRIMARY KEY AUTOINCREMENT,
+ketjuId integer,
+kayttajaId integer,
+aika text,		/*  YYYY-MM-DD HH:MM:SS  */
+teksti text,
+FOREIGN KEY(ketjuId) REFERENCES Ketju(ketjuId),
+FOREIGN KEY(kayttajaId) REFERENCES Kayttaja(kayttajaId)
+);		
+
+CREATE TABLE Ketju (
+ketjuId integer PRIMARY KEY AUTOINCREMENT,
+alueId integer,
+avaus text,
+FOREIGN KEY(alueId) REFERENCES Alue(alueId)
+);
+
+CREATE TABLE Alue (
+alueId integer PRIMARY KEY AUTOINCREMENT,
+nimi varchar(45)
+);
+
+/* http://www.tutorialspoint.com/sqlite/sqlite_date_time.htm   Sqlitelle toimii vain tässä mainitut viisi  */
+
+/* INSERTS */
+/* KÄYTTÄJÄ  */
+
+INSERT INTO Kayttaja (nimi) VALUES('Tuomo');
+INSERT INTO Kayttaja (nimi) VALUES('Jarmo');
+INSERT INTO Kayttaja (nimi) VALUES('Minttu');
+INSERT INTO Kayttaja (nimi) VALUES('Make');
+INSERT INTO Kayttaja (nimi) VALUES('Selanne');
+INSERT INTO Kayttaja (nimi) VALUES('Einstein');
+INSERT INTO Kayttaja (nimi) VALUES('Broglie');
+INSERT INTO Kayttaja (nimi) VALUES('Taneli');
+INSERT INTO Kayttaja (nimi) VALUES('Anna');
+INSERT INTO Kayttaja (nimi) VALUES('Mari');
+
+/* ALUE  */
+ 
+INSERT INTO Alue (nimi) VALUES('Tietojenkäsittelytiede');
+INSERT INTO Alue (nimi) VALUES('Matematiikka');
+INSERT INTO Alue (nimi) VALUES('Fysiikka');
+INSERT INTO Alue (nimi) VALUES('Egyptologia');
+
+/* KETJU */
+
+INSERT INTO  Ketju (alueId, avaus) VALUES (1, 'Tikape');
+INSERT INTO Ketju (alueId, avaus) VALUES (1, 'Ohpe');
+INSERT INTO Ketju (alueId, avaus) VALUES (1, 'Ohja');
+INSERT INTO Ketju (alueId, avaus) VALUES (1, 'Ohtek');
+INSERT INTO Ketju (alueId, avaus) VALUES (1, 'Tietokoneen toiminta');
+INSERT INTO Ketju (alueId, avaus) VALUES (1, 'Harjoitustyö');
+INSERT INTO Ketju (alueId, avaus) VALUES (1, 'Tietorakenteet');
+INSERT INTO Ketju (alueId, avaus) VALUES (1, 'Algoritmit');
+INSERT INTO Ketju (alueId, avaus) VALUES (1, 'Käyttöjärjestelmät');
+INSERT INTO Ketju (alueId, avaus) VALUES (1, 'Johdatus tekoälyyn');
+INSERT INTO Ketju (alueId, avaus) VALUES (1, 'Laskennan mallit');
+INSERT INTO Ketju (alueId, avaus) VALUES (1, 'Ohjelmistotuotanto');
+
+INSERT INTO Ketju (alueId, avaus) VALUES (2, 'Logiikka');
+INSERT INTO Ketju (alueId, avaus) VALUES (2, 'Differentiaaliyhtalot');
+
+INSERT INTO Ketju (alueId, avaus) VALUES (3, 'Tila');
+INSERT INTO  Ketju (alueId, avaus) VALUES (3, 'Vuka');
+
+INSERT INTO Ketju (alueId, avaus) VALUES (4, 'Niilinhanhet');
+INSERT INTO Ketju (alueId, avaus) VALUES (4, 'Ra');
+
+/* VIESTI */
+
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(1,1, '2016-02-14 09:32:11', 'Tää on tosi hyvin järjestetty kurssi');
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(1,2,'2016-02-15 13:42:45', 'Joo, tosi hyvä kurssimateriaalikin!');
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(1,5,'2016-02-15 13:44:45', 'Manuaalisessa tietokantaan syöttämisessä voi mennä hetki');
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(1,6,'2016-02-15 13:47:45', 'Joo, mutta kyllä se kannattaa.');
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(1,5,'2016-02-18 11:42:45', 'Tulee ainakin kunnollinen määrä testimatskua');
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(1,9,'2016-02-19 13:42:45', 'Testaus on tärkeää!');
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(1,1,'2016-02-28 13:42:45', 'Jeps, ei kannata väheksyä');
+
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(11,2,'2015-02-15 13:42:45', 'Mitä mieltä olette kurssista?');
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(12,3,'2015-02-15 19:42:45', 'Olenko täällä yksin kirjoittamassa?');
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(13,3,'2015-05-15 13:43:45', 'Rakenteiden rakentaminen on jännää');
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(14,4,'2015-06-15 13:41:45', 'Algoritmit on pelottava sana');
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(15,4,'2015-07-15 13:22:45', 'Linux voittaa');
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(16,5,'2015-09-15 13:42:45', 'Tekoäly pelottaa monia');
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(17,5,'2015-02-13 11:42:45', 'Laskimella voi laskea');
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(18,5,'2015-12-15 16:42:22', 'Tuottaminen on työlästä. Kuluttaisin mieluummin.');
+
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(2,1, '2015-02-14 11:12:13', 'Tää kurssi on aika helppo');
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(2,3,'2015-02-14 11:12:17', 'Ei kyllä minun mielestä');
+
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(3,2,'2015-03-14 11:12:13', 'Opin paljon tällä kurssilla');
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(3,4,'2015-04-14 19:12:13', 'MMh.. paljon hyödyllistä kamaa');
+
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(4,4,'2015-01-14 11:12:13', 'Erittäin looginen kurssi');
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(4,5,'2015-05-14 14:22:14', 'Sanopas muuta.');
+
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(5,5, '2015-01-14 11:12:13', 'Kauheasti käppyröitä');
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(5,6, '2015-02-14 19:12:23', 'diffis oli tosi hauska kurssi');
+
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(6,6,'2015-02-14 11:33:13', 'Python on helppoa kun osaa');
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(6,7,'2015-02-14 22:44:13', 'Joo, mutta Octave on kätevämpi');
+
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(7,7,'2015-02-1 11:12:13', 'Assistentit autto kyllä hyvin');
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(7,8,'2015-02-12 12:44:13', 'Joo. Ja apua kaivattiinkin..');
+
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(8,8,'2015-2-17 11:12:13', 'Tarttuva biisi');
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(8,9, '2015-02-19 18:12:13', 'Tämä on kurssikeskustelu alue! Ei musiikkia..');
+
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(9,9,'2015-02-1 13:12:13','Aurinko on Jumala');
+INSERT INTO Viesti (ketjuId, kayttajaId, aika, teksti)
+VALUES(9,10,'2015-02-14 15:12:13', 'Tiede ei tue väitettäsi');
+
