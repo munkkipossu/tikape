@@ -37,7 +37,8 @@ public class ViestiDao {
         int alueId=rs.getInt(1);
         String nimi=rs.getString(2);
         int lkm=rs.getInt(3);
-        Timestamp aika=rs.getTimestamp(4);
+       String aikaTeksti=rs.getString(4);
+        Timestamp aika = Timestamp.valueOf(aikaTeksti);
         
         rivit.add(new Alue(alueId,nimi,lkm,aika));
         }
@@ -65,7 +66,8 @@ public class ViestiDao {
         int ketjuId=rs.getInt(1);
         String avaus=rs.getString(2);
         int lkm=rs.getInt(3);
-        Timestamp aika=rs.getTimestamp(4);
+        String aikaTeksti=rs.getString(4);
+        Timestamp aika = Timestamp.valueOf(aikaTeksti);
         
         rivit.add(new Ketju(ketjuId,avaus,lkm,aika));
         }
