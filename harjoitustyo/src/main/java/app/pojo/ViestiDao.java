@@ -23,7 +23,7 @@ public class ViestiDao {
     
     public List<Alue> getAlueet() throws SQLException {
         List<Alue> rivit = new ArrayList<>();
-        String kysely="SELECT Alue.id, Alue.nimi, count(Viesti.viestiId), max(Viesti,aika) From Viesti " 
+        String kysely="SELECT Alue.alueId, Alue.nimi, count(Viesti.viestiId), max(Viesti.aika) From Viesti " 
                 + "join Ketju on Viesti.ketjuId=Ketju.ketjuId "
                 + "join Alue on Ketju.alueId=Alue.alueId"
                 + "group by Alue.alueID order by Alue.nimi ASC;";
