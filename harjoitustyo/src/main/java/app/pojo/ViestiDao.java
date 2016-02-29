@@ -4,7 +4,7 @@
  * @author tkarkine
  */
 import java.sql.*;
-import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import org.jsoup.Jsoup;
 
@@ -91,7 +91,8 @@ public class ViestiDao {
         int id=rs.getInt(1);
         int ketju=rs.getInt(2);
         int kayttaja=rs.getInt(3);
-        Timestamp aika=rs.getTimestamp(4);
+        String aikaTeksti=rs.getString(4);
+        Timestamp aika = Timestamp.valueOf(aikaTeksti);
         String teksti=rs.getString(5);
         
         rivit.add(new Viesti(id,ketju,kayttaja,aika,teksti));
@@ -110,7 +111,9 @@ public class ViestiDao {
         PreparedStatement stmt = yhteys.prepareStatement(kysely);
         stmt.setInt(1, ketjuId);
         stmt.setInt(2, kayttaja);
-        stmt.setTimestamp(3, new Timestamp(Calendar.getInstance().getTime().getTime()));
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String strDate = sdfDate.format(System.currentTimeMillis());
+        stmt.setString(3,strDate);
         stmt.setString(4, Jsoup.parse(teksti).text());
         
         boolean palaute = stmt.execute();
