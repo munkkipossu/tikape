@@ -26,7 +26,7 @@ public class ViestiDao {
         String kysely="SELECT Alue.alueId, Alue.nimi, count(Viesti.viestiId), max(Viesti.aika) From Viesti " 
                 + "join Ketju on Viesti.ketjuId=Ketju.ketjuId "
                 + "join Alue on Ketju.alueId=Alue.alueId"
-                + "group by Alue.alueID order by Alue.nimi ASC;";
+                + "group by Alue.alueID order by Alue.nimi ASC";
         
         
         PreparedStatement stmt = yhteys.prepareStatement(kysely);
@@ -48,11 +48,11 @@ public class ViestiDao {
     
     public List<Ketju> getKetjut(int alueId, int offSet) throws SQLException {
         List<Ketju> rivit = new ArrayList<>();
-        String kysely="SELECT Ketju.id, Ketju.avaus, count(Viesti.viestiId), max(Viesti,aika) as uusin From Viesti " 
+        String kysely="SELECT Ketju.ketjuId, Ketju.avaus, count(Viesti.viestiId), max(Viesti.aika) as uusin From Viesti " 
                 + "join Ketju on Viesti.ketjuId=Ketju.ketjuId "
-                + "join Alue on Ketju.alueId=Alue.alueId"
-                + "where Alue.alueid= ?"
-                + "group by Ketju.ketjuID order by uusin DESC LIMIT 10 OFFSET ?;";
+                + "join Alue on Ketju.alueId=Alue.alueId "
+                + "where Alue.alueid= ? "
+                + "group by Ketju.ketjuID order by uusin DESC LIMIT 10 OFFSET ?";
         
         
         PreparedStatement stmt = yhteys.prepareStatement(kysely);
@@ -77,8 +77,8 @@ public class ViestiDao {
     public List<Viesti> getViestit(int ketjuId, int offSet) throws SQLException {
         List<Viesti> rivit = new ArrayList<>();
         String kysely="SELECT * From Viesti " 
-                + "where Viesti.ketjuId= ?"
-                + "order by Viesti.aika DESC LIMIT 10 OFFSET ?;";
+                + "where Viesti.ketjuId= ? "
+                + "order by Viesti.aika DESC LIMIT 10 OFFSET ?";
         
         
         PreparedStatement stmt = yhteys.prepareStatement(kysely);
@@ -104,7 +104,7 @@ public class ViestiDao {
     public boolean setViesti(int ketjuId, int kayttaja,String teksti) throws SQLException{
         String kysely="INSERT INTO Viesti " 
                 + "(ketjuId,kayttajaId,aika,teksti)"
-                + "VALUES (?,?,?,?);";
+                + "VALUES (?,?,?,?)";
         
         
         PreparedStatement stmt = yhteys.prepareStatement(kysely);
