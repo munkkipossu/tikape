@@ -78,7 +78,8 @@ public class ViestiDao {
     
     public List<Viesti> getViestit(int ketjuId, int offSet) throws SQLException {
         List<Viesti> rivit = new ArrayList<>();
-        String kysely="SELECT * From Viesti " 
+        String kysely="SELECT viestiId,ketjuId, aika, teksti, kayttaja.nimi  From Viesti " 
+                 + "join kayttaja on viesti.kayttajaID=kayttaja.kayttajaid "
                 + "where Viesti.ketjuId= ? "
                 + "order by Viesti.aika DESC LIMIT 10 OFFSET ?";
         
@@ -92,10 +93,10 @@ public class ViestiDao {
         while (rs.next()){
         int id=rs.getInt(1);
         int ketju=rs.getInt(2);
-        int kayttaja=rs.getInt(3);
-        String aikaTeksti=rs.getString(4);
         Timestamp aika = Timestamp.valueOf(aikaTeksti);
-        String teksti=rs.getString(5);
+        String teksti=rs.getString(3);
+        String aikaTeksti=rs.getString(4);
+         String kayttaja=rs.getString(5);
         
         rivit.add(new Viesti(id,ketju,kayttaja,aika,teksti));
         }
