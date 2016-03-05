@@ -124,6 +124,19 @@ public class ViestiDao {
         return palaute;
     }
     
+    public int getKayttajaId(String nimi) throws SQLException {
+        int viite=-1;
+        String kysely="Select kayttajaId from kayttaja where nimi= ?";
+        PreparedStatement stmt = yhteys.prepareStatement(kysely);
+        stmt.setString(1,nimi);
+        Resultset rs = stmt.executeQuery();
+        while (rs.next()) {
+            viite=rs.getInt(1);
+        }
+        return viite;
+        // palauttaa -1 jos kayttajaa ei ole, muutoin kayttajan id;n
+    }
+    
      public void connectionClose() throws SQLException {
         yhteys.close();
     }
