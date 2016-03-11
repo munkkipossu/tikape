@@ -5,6 +5,7 @@
  */
 package app.pojo;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -12,13 +13,21 @@ import java.util.List;
  * @author mp
  */
 public class Ketju {
-    
-    private Integer ketjuId;
-    private Alue alue;
+
+    private int ketjuId;
+    private int alueId;
     private List<Viesti> viestit;
     private String avaus;
-    
-    
+    private Timestamp aika;
+
+    public Ketju(int ketjuId, int alue, List<Viesti> viestit, String avaus, Timestamp aika) {
+        this.ketjuId = ketjuId;
+        this.alueId = alue;
+        this.viestit = viestit;
+        this.avaus = avaus;
+        this.aika = aika;
+    }
+
     public Integer getKetjuId() {
         return ketjuId;
     }
@@ -27,12 +36,12 @@ public class Ketju {
         this.ketjuId = ketjuId;
     }
 
-    public Alue getAlue() {
-        return alue;
+    public int getAlueId() {
+        return alueId;
     }
 
-    public void setAlue(Alue alue) {
-        this.alue = alue;
+    public void setAlueId(int alueId) {
+        this.alueId = alueId;
     }
 
     public List<Viesti> getViestit() {
@@ -50,5 +59,8 @@ public class Ketju {
     public void setAvaus(String avaus) {
         this.avaus = avaus;
     }
-   
+
+    public int getLkm() {
+        return viestit.size();
+    }
 }

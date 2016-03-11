@@ -13,34 +13,43 @@ import java.sql.Timestamp;
  */
 public class Viesti {
 
-    private Integer viestiId;
-    private Ketju ketju;
-    private Kayttaja kayttaja;
+    private int viestiId;
+    private int ketjuId;
+    private String kayttajaNimi;
     private Timestamp aika;
     private String teksti;
+
+    //id, ketju, kayttaja, aika, teksti
+    public Viesti(int viestiId, int ketjuId, String kayttajaNimi, Timestamp aika, String teksti) {
+        this.viestiId = viestiId;
+        this.ketjuId = ketjuId;
+        this.kayttajaNimi = kayttajaNimi;
+        this.aika = aika;
+        this.teksti = teksti;
+    }
+
+    public int getKetjuId() {
+        return ketjuId;
+    }
+
+    public void setKetjuId(int ketjuId) {
+        this.ketjuId = ketjuId;
+    }
 
     public Integer getViestiId() {
         return viestiId;
     }
 
-    public void setViestiId(Integer viestiId) {
+    public void setViestiId(int viestiId) {
         this.viestiId = viestiId;
     }
 
-    public Ketju getKetju() {
-        return ketju;
+    public String getKayttajaNimi() {
+        return kayttajaNimi;
     }
 
-    public void setKetju(Ketju ketju) {
-        this.ketju = ketju;
-    }
-
-    public Kayttaja getKayttaja() {
-        return kayttaja;
-    }
-
-    public void setKayttaja(Kayttaja kayttaja) {
-        this.kayttaja = kayttaja;
+    public void setKayttajaNimi(String kayttajaNimi) {
+        this.kayttajaNimi = kayttajaNimi;
     }
 
     public Timestamp getAika() {
@@ -58,6 +67,5 @@ public class Viesti {
     public void setTeksti(String teksti) {
         this.teksti = teksti;
     }
-    
-    
+
 }

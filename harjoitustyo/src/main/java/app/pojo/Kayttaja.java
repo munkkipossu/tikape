@@ -5,6 +5,7 @@
  */
 package app.pojo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,15 +13,28 @@ import java.util.List;
  * @author mp
  */
 public class Kayttaja {
-    private Integer kayttajaNumero;
+
+    private int kayttajaNumero;
     private String nimi;
     private List<Viesti> viestit;
 
-    public Integer getKayttajaNumero() {
+    public Kayttaja(int kayttajaNumero, String nimi) {
+        this.kayttajaNumero = kayttajaNumero;
+        this.nimi = nimi;
+        this.viestit = new ArrayList();
+    }
+
+    public Kayttaja(int kayttajaNumero, String nimi, List<Viesti> viestit) {
+        this.kayttajaNumero = kayttajaNumero;
+        this.nimi = nimi;
+        this.viestit = viestit;
+    }
+
+    public int getKayttajaNumero() {
         return kayttajaNumero;
     }
 
-    public void setKayttajaNumero(Integer kayttajaNumero) {
+    public void setKayttajaNumero(int kayttajaNumero) {
         this.kayttajaNumero = kayttajaNumero;
     }
 
