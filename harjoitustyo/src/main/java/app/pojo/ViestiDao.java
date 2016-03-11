@@ -27,13 +27,13 @@ public class ViestiDao {
         List<Alue> alueet = new ArrayList<>();
         String kysely = "SELECT Alue.alueId, Alue.nimi, count(Viesti.viestiId), max(Viesti.aika) From Viesti "
                 + "join Ketju on Viesti.ketjuId=Ketju.ketjuId "
-                + "join Alue on Ketju.alueId=Alue.alueId"
-                + "group by Alue.alueID order by Alue.nimi ASC";
-        
-        PreparedStatement stmt = yhteys.prepareStatement(kysely);
-        
+                + "join Alue on Ketju.alueId=Alue.alueId "
+                + "group by Alue.alueId order by Alue.nimi ASC";
+        System.out.println("bar");
+        PreparedStatement stmt = this.yhteys.prepareStatement(kysely);
+        System.out.println("bar");
         ResultSet rs = stmt.executeQuery();
-        
+        System.out.println("bar");
         while (rs.next()) {
             int alueId = rs.getInt(1);
             String nimi = rs.getString(2);
@@ -104,8 +104,8 @@ public class ViestiDao {
         while (rs.next()) {
             int id = rs.getInt(1);
             //int ketju = rs.getInt(2);
-            String teksti = rs.getString(3);
-            String aikaTeksti = rs.getString(4);
+            String aikaTeksti = rs.getString(3);
+            String teksti = rs.getString(4);
             String kayttaja = rs.getString(5);
             Timestamp aika = Timestamp.valueOf(aikaTeksti);
             
@@ -118,7 +118,7 @@ public class ViestiDao {
     
     public boolean setViesti(int ketjuId, int kayttaja, String teksti) throws SQLException {
         String kysely = "INSERT INTO Viesti "
-                + "(ketjuId,kayttajaId,aika,teksti)"
+                + "(ketjuId,kayttajaId,aika,teksti) "
                 + "VALUES (?,?,?,?)";
         
         PreparedStatement stmt = yhteys.prepareStatement(kysely);
