@@ -14,26 +14,26 @@ import java.sql.Timestamp;
 public class Viesti {
 
     private int viestiId;
-    private int ketjuId;
+    private Ketju ketju;
     private String kayttajaNimi;
     private Timestamp aika;
     private String teksti;
 
     //id, ketju, kayttaja, aika, teksti
-    public Viesti(int viestiId, int ketjuId, String kayttajaNimi, Timestamp aika, String teksti) {
+    public Viesti(int viestiId, Ketju ketju, String kayttajaNimi, Timestamp aika, String teksti) {
         this.viestiId = viestiId;
-        this.ketjuId = ketjuId;
+        this.ketju = ketju;
         this.kayttajaNimi = kayttajaNimi;
         this.aika = aika;
         this.teksti = teksti;
     }
 
-    public int getKetjuId() {
-        return ketjuId;
+    public Ketju getKetju() {
+        return ketju;
     }
 
-    public void setKetjuId(int ketjuId) {
-        this.ketjuId = ketjuId;
+    public void setKetju(Ketju ketju) {
+        this.ketju = ketju;
     }
 
     public Integer getViestiId() {

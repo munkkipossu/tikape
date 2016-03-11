@@ -6,6 +6,7 @@
 package app.pojo;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -21,11 +22,16 @@ public class Alue {
     private Timestamp aika;
 
     //alueId, nimi, ketjut, aika
-    public Alue(Integer alueId, String nimi, List<Ketju> ketjut, Timestamp aika) {
+    public Alue(Integer alueId, String nimi, Timestamp aika) {
         this.alueId = alueId;
         this.nimi = nimi;
-        this.ketjut = ketjut;
+        this.ketjut = new ArrayList();
         this.aika = aika;
+    }
+
+    public Alue(Integer alueId, String nimi, List<Ketju> ketjut, Timestamp aika) {
+        this(alueId, nimi, aika);
+        this.ketjut.addAll(ketjut);
     }
 
     public Integer getAlueId() {
