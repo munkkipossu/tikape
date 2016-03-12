@@ -116,10 +116,10 @@ public class ViestiDao {
         return rivit;
     }
     
-    public boolean setViesti(int ketjuId, int kayttaja, String teksti) throws SQLException {
+    public void setViesti(int ketjuId, int kayttaja, String teksti) throws SQLException {
         String kysely = "INSERT INTO Viesti "
-                + "(ketjuId,kayttajaId,aika,teksti) "
-                + "VALUES (?,?,?,?)";
+                + "(ketjuId, kayttajaId, aika, teksti) "
+                + "VALUES (?, ?, ?, ?)";
         
         PreparedStatement stmt = yhteys.prepareStatement(kysely);
         stmt.setInt(1, ketjuId);
@@ -129,10 +129,10 @@ public class ViestiDao {
         stmt.setString(3, strDate);
         stmt.setString(4, Jsoup.parse(teksti).text());
         
-        boolean palaute = stmt.execute();
+        System.out.println("setting viesti: " + teksti);
+        stmt.execute();
         stmt.close();
-        return palaute;
-    }
+     }
     
     public int getKayttajaId(String nimi) throws SQLException {
         int viite = -1;

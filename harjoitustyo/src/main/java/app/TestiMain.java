@@ -44,9 +44,9 @@ public class TestiMain {
             return a;
         });
 
-        // Ketjut
-        get("/alueet/:ketju", (req, res) -> {
-            List<Ketju> ketjut = alueet.get(Integer.parseInt(req.params("ketju")))
+        // Alueen ketjut
+        get("/alueet/:alue", (req, res) -> {
+            List<Ketju> ketjut = alueet.get(Integer.parseInt(req.params("alue")))
                     .getKetjut();
             String k = "";
             for (Ketju ketju : ketjut) {
@@ -57,17 +57,32 @@ public class TestiMain {
         });
         
         // Kejtun viestit
-        get("/alueet/:ketju/:viesti", (req, res) -> {
-            List<Viesti> viestit = alueet.get(Integer.parseInt(req.params("ketju")))
-                    .getKetjut().get(Integer.parseInt(req.params("viesti")))
-                    .getViestit();
+        get("/alueet/:alue/:ketju", (req, res) -> {
+            int alue = Integer.parseInt(req.params("alue"));
+            int ketju = Integer.parseInt(req.params("ketju"));
+            List<Viesti> viestit = alueet.get(alue)
+                                         .getKetjut().get(ketju)
+                                         .getViestit();
             
             String k = "";
             for (Viesti viesti : viestit) {
                 String alueenNimi = viesti.getTeksti();
                 k += alueenNimi + "<br/>";
             }
-            return k;
+            return k
+                + "<form method=\"POST\" action=\"/alueet/"+alue+"/"+ketju+"\">\n"
+                + "Viesti:<br/>\n"
+                + "<input type=\"text\" name=\"viesti\"/><br/>\n"
+                + "</form>";
+        });
+        
+        post("/alueet/:alue/:ketju", (req, res) -> {
+            String viesti = req.queryParams("viesti");
+            int alue = Integer.parseInt(req.params("alue"));
+            int ketju = Integer.parseInt(req.params("ketju"));
+            
+            dao.setViesti(ketju, 1, viesti);
+            return "";
         });
 
         /*
@@ -87,7 +102,7 @@ public class TestiMain {
 //            String nimi = req.queryParams("nimi");
 //            return "Uusi ketju lisätty: " + nimi;
 //        });
-        dao.connectionClose();
+        //dao.connectionClose();
     }
 
     public static String linkify(String str) {

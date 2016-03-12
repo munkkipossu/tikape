@@ -50,7 +50,7 @@ INSERT INTO Alue (nimi) VALUES('Egyptologia');
 
 /* KETJU */
 
-INSERT INTO  Ketju (alueId, avaus) VALUES (1, 'Tikape');
+INSERT INTO Ketju (alueId, avaus) VALUES (1, 'Tikape');
 INSERT INTO Ketju (alueId, avaus) VALUES (1, 'Ohpe');
 INSERT INTO Ketju (alueId, avaus) VALUES (1, 'Ohja');
 INSERT INTO Ketju (alueId, avaus) VALUES (1, 'Ohtek');
