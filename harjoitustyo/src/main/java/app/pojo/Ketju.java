@@ -6,8 +6,6 @@
 package app.pojo;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -16,22 +14,17 @@ import java.util.List;
 public class Ketju {
 
     private int ketjuId;
-    private Alue alue;
-    private List<Viesti> viestit;
+    private int alueId;
     private String avaus;
+    private int lkm;
     private Timestamp aika;
 
-    public Ketju(int ketjuId, Alue alue, String avaus, Timestamp aika) {
+    public Ketju(int ketjuId, int alueId, String avaus, int lkm, Timestamp aika) {
         this.ketjuId = ketjuId;
-        this.alue = alue;
-        this.viestit = new ArrayList();
+        this.alueId = alueId;
         this.avaus = avaus;
+        this.lkm = lkm;
         this.aika = aika;
-    }
-
-    public Ketju(int ketjuId, Alue alue, List<Viesti> viestit, String avaus, Timestamp aika) {
-        this(ketjuId, alue, avaus, aika);
-        this.viestit.addAll(viestit);
     }
 
     public Integer getKetjuId() {
@@ -42,24 +35,12 @@ public class Ketju {
         this.ketjuId = ketjuId;
     }
 
-    public Alue getAlue() {
-        return alue;
+    public int getAlueId() {
+        return alueId;
     }
 
-    public void setAlue(Alue alue) {
-        this.alue = alue;
-    }
-
-    public List<Viesti> getViestit() {
-        return viestit;
-    }
-
-    public void addViestit(List<Viesti> viestit) {
-        this.viestit.addAll(viestit);
-    }
-
-    public void setViestit(List<Viesti> viestit) {
-        this.viestit = viestit;
+    public void setAlueId(int alueId) {
+        this.alueId = alueId;
     }
 
     public String getAvaus() {
@@ -71,6 +52,6 @@ public class Ketju {
     }
 
     public int getLkm() {
-        return viestit.size();
+        return lkm;
     }
 }

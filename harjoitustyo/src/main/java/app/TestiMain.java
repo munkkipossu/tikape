@@ -4,10 +4,7 @@ import app.pojo.Alue;
 import app.pojo.Ketju;
 import app.pojo.Viesti;
 import app.pojo.ViestiDao;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.text.Normalizer;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import static spark.Spark.*;
@@ -32,55 +29,66 @@ public class TestiMain {
 //        
 //      index(pääsivu) -> alue -> ketju
         get("/index", (req, res) -> {
-            return "Index page";
+            return "<h1>Index page</h1>"
+                    + "<br/>"
+                    + "<h3><a href=\"alueet\">Alueet</a></h3>";
         });
 
         get("/alueet", (req, res) -> {
-            String a = "";
+            String a = "<h2>Otsikko</h2>"
+                    + "<br>"
+                    + "<h3><a href=\"/index\">Takaisin</a></h3>"
+                    + "<br>";
             for (Alue alue : alueet) {
                 String alueenNimi = alue.getNimi();
-                a += alueenNimi + "<br/>";
+                int alueenId = alue.getAlueId();
+                a += "<a href=\"/alueet/" + alueenId + "\">" + alueenNimi + "</a>" + "<br/>";
             }
             return a;
         });
 
         // Alueen ketjut
         get("/alueet/:alue", (req, res) -> {
-            List<Ketju> ketjut = alueet.get(Integer.parseInt(req.params("alue")))
-                    .getKetjut();
-            String k = "";
+            int alue = Integer.parseInt(req.params("alue"));
+            List<Ketju> ketjut = dao.getKetjut(alue, 0);;
+            String k = "<h2>Otsikko</h2>"
+                    + "<br>"
+                    + "<h3><a href=\"/alueet\">Takaisin</a></h3>"
+                    + "<br>";
             for (Ketju ketju : ketjut) {
-                String alueenNimi = ketju.getAvaus();
-                k += alueenNimi + "<br/>";
+                String ketjunAvaus = ketju.getAvaus();
+                int ketjuId = ketju.getKetjuId();
+                k += "<a href=\"/alueet/" + alue + "/" + ketjuId + "\">" + ketjunAvaus + "</a>" + "<br/>";
             }
             return k;
         });
-        
+
         // Kejtun viestit
         get("/alueet/:alue/:ketju", (req, res) -> {
             int alue = Integer.parseInt(req.params("alue"));
             int ketju = Integer.parseInt(req.params("ketju"));
-            List<Viesti> viestit = alueet.get(alue)
-                                         .getKetjut().get(ketju)
-                                         .getViestit();
-            
-            String k = "";
+            List<Viesti> viestit = dao.getViestit(ketju, 0);
+
+            String v = "<h2>Otsikko</h2>"
+                    + "<br>"
+                    + "<h3><a href=\"/alueet/" + alue + "\">Takaisin</a></h3>"
+                    + "<br>";
             for (Viesti viesti : viestit) {
                 String alueenNimi = viesti.getTeksti();
-                k += alueenNimi + "<br/>";
+                v += alueenNimi + "<br/>";
             }
-            return k
-                + "<form method=\"POST\" action=\"/alueet/"+alue+"/"+ketju+"\">\n"
-                + "Viesti:<br/>\n"
-                + "<input type=\"text\" name=\"viesti\"/><br/>\n"
-                + "</form>";
+            return v
+                    + "<form method=\"POST\" action=\"/alueet/" + alue + "/" + ketju + "\">\n"
+                    + "Viesti:<br/>\n"
+                    + "<input type=\"text\" name=\"viesti\"/><br/>\n"
+                    + "</form>";
         });
-        
+
         post("/alueet/:alue/:ketju", (req, res) -> {
             String viesti = req.queryParams("viesti");
             int alue = Integer.parseInt(req.params("alue"));
             int ketju = Integer.parseInt(req.params("ketju"));
-            
+
             dao.setViesti(ketju, 1, viesti);
             return "";
         });

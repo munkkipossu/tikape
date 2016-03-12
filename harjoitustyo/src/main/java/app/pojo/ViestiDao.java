@@ -40,7 +40,7 @@ public class ViestiDao {
             int lkm = rs.getInt(3);
             String aikaTeksti = rs.getString(4);
             Timestamp aika = Timestamp.valueOf(aikaTeksti);
-            Alue alue = new Alue(alueId, nimi, aika);
+            Alue alue = new Alue(alueId, nimi, lkm, aika);
             alueet.add(alue);
             
         }
@@ -49,8 +49,7 @@ public class ViestiDao {
         return alueet;
     }
     
-    public List<Ketju> getKetjut(Alue alue, int offSet) throws SQLException {
-        int alueId = alue.getAlueId();
+    public List<Ketju> getKetjut(int alueId, int offSet) throws SQLException {
         List<Ketju> rivit = new ArrayList<>();
         
         String kysely = "SELECT Ketju.ketjuId, Ketju.avaus, count(Viesti.viestiId), max(Viesti.aika) as uusin From Viesti "
@@ -74,7 +73,7 @@ public class ViestiDao {
             int lkm = rs.getInt(3);
             String aikaTeksti = rs.getString(4);
             Timestamp aika = Timestamp.valueOf(aikaTeksti);
-            Ketju ketju = new Ketju(ketjuId, alue, avaus, aika);
+            Ketju ketju = new Ketju(ketjuId, alueId, avaus, lkm, aika);
             rivit.add(ketju);
           
         }
@@ -83,8 +82,7 @@ public class ViestiDao {
         return rivit;
     }
     
-    public List<Viesti> getViestit(Ketju ketju, int offSet) throws SQLException {
-        int ketjuId = ketju.getKetjuId();
+    public List<Viesti> getViestit(int ketjuId, int offSet) throws SQLException {
         List<Viesti> rivit = new ArrayList<>();
         String kysely = "SELECT viestiId,ketjuId, aika, teksti, kayttaja.nimi  From Viesti "
                 + "join kayttaja on viesti.kayttajaID=kayttaja.kayttajaid "
@@ -106,7 +104,7 @@ public class ViestiDao {
             String kayttaja = rs.getString(5);
             Timestamp aika = Timestamp.valueOf(aikaTeksti);
             
-            rivit.add(new Viesti(id, ketju, kayttaja, aika, teksti));
+            rivit.add(new Viesti(id, ketjuId, kayttaja, aika, teksti));
         }
         stmt.close();
         rs.close();

@@ -6,9 +6,6 @@
 package app.pojo;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  *
@@ -18,20 +15,15 @@ public class Alue {
 
     private Integer alueId;
     private String nimi;
-    private List<Ketju> ketjut;
+    private int lkm;
     private Timestamp aika;
 
     //alueId, nimi, ketjut, aika
-    public Alue(Integer alueId, String nimi, Timestamp aika) {
+    public Alue(Integer alueId, String nimi, int lkm, Timestamp aika) {
         this.alueId = alueId;
         this.nimi = nimi;
-        this.ketjut = new ArrayList();
+        this.lkm = lkm;
         this.aika = aika;
-    }
-
-    public Alue(Integer alueId, String nimi, List<Ketju> ketjut, Timestamp aika) {
-        this(alueId, nimi, aika);
-        this.ketjut.addAll(ketjut);
     }
 
     public Integer getAlueId() {
@@ -50,19 +42,7 @@ public class Alue {
         this.nimi = nimi;
     }
 
-    public List<Ketju> getKetjut() {
-        return ketjut;
-    }
-
-    public void addKetjut(Collection<Ketju> ketjut) {
-        this.ketjut.addAll(ketjut);
-    }
-
-    public void setKetjut(List<Ketju> ketjut) {
-        this.ketjut = ketjut;
-    }
-
     public int getLkm() {
-        return ketjut.size();
+        return lkm;
     }
 }
