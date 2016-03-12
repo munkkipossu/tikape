@@ -29,11 +29,11 @@ public class ViestiDao {
                 + "join Ketju on Viesti.ketjuId=Ketju.ketjuId "
                 + "join Alue on Ketju.alueId=Alue.alueId "
                 + "group by Alue.alueId order by Alue.nimi ASC";
-        System.out.println("bar");
+       
         PreparedStatement stmt = this.yhteys.prepareStatement(kysely);
-        System.out.println("bar");
+      
         ResultSet rs = stmt.executeQuery();
-        System.out.println("bar");
+       
         while (rs.next()) {
             int alueId = rs.getInt(1);
             String nimi = rs.getString(2);
@@ -42,7 +42,6 @@ public class ViestiDao {
             Timestamp aika = Timestamp.valueOf(aikaTeksti);
             Alue alue = new Alue(alueId, nimi, aika);
             alueet.add(alue);
-            alue.addKetjut(getKetjut(alue, -1));
             
         }
         stmt.close();
@@ -77,7 +76,7 @@ public class ViestiDao {
             Timestamp aika = Timestamp.valueOf(aikaTeksti);
             Ketju ketju = new Ketju(ketjuId, alue, avaus, aika);
             rivit.add(ketju);
-            ketju.addViestit(getViestit(ketju, -1));
+          
         }
         stmt.close();
         rs.close();
