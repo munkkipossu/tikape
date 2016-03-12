@@ -57,15 +57,15 @@ public class ViestiDao {
                 + "join Ketju on Viesti.ketjuId=Ketju.ketjuId "
                 + "join Alue on Ketju.alueId=Alue.alueId "
                 + "where Alue.alueid= ? "
-                + "group by Ketju.ketjuID order by uusin DESC";
-        if (offSet != -1) {
-            kysely += " LIMIT 10 OFFSET ?";
-        }
+                + "group by Ketju.ketjuID order by uusin DESC"
+        
+             + " LIMIT 10 OFFSET ?";
+        
         PreparedStatement stmt = yhteys.prepareStatement(kysely);
         stmt.setInt(1, alueId);
-        if (offSet != -1) {
+        
             stmt.setInt(2, offSet);
-        }
+        
         ResultSet rs = stmt.executeQuery();
         
         while (rs.next()) {
@@ -89,15 +89,13 @@ public class ViestiDao {
         String kysely = "SELECT viestiId,ketjuId, aika, teksti, kayttaja.nimi  From Viesti "
                 + "join kayttaja on viesti.kayttajaID=kayttaja.kayttajaid "
                 + "where Viesti.ketjuId= ? "
-                + "order by Viesti.aika DESC";
-        if (offSet == -1) {
-            kysely += " LIMIT 10 OFFSET ?";
-        }
+                + "order by Viesti.aika DESC"
+                + " LIMIT 10 OFFSET ?";
+        
         PreparedStatement stmt = yhteys.prepareStatement(kysely);
         stmt.setInt(1, ketjuId);
-        if (offSet == -1) {
-            stmt.setInt(2, offSet);
-        }
+          stmt.setInt(2, offSet);
+          
         ResultSet rs = stmt.executeQuery();
         
         while (rs.next()) {
