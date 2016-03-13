@@ -5,9 +5,12 @@ import app.pojo.Ketju;
 import app.pojo.Viesti;
 import app.pojo.ViestiDao;
 import java.text.Normalizer;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
+import spark.ModelAndView;
 import static spark.Spark.*;
+import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 public class TestiMain {
 
@@ -15,24 +18,17 @@ public class TestiMain {
         ViestiDao dao = new ViestiDao("testi.db");
         List<Alue> alueet = dao.getAlueet();
 
-//        Connection connection = DriverManager.getConnection("jdbc:sqlite:testi.db");
-//
-//        Statement statement = connection.createStatement();
-//
-//        ResultSet resultSet = statement.executeQuery("SELECT 1");
-//
-//        if(resultSet.next()) {
-//            System.out.println("Hei tietokantamaailma!");
-//        } else {
-//            System.out.println("Yhteyden muodostaminen epäonnistui.");
-//        }
-//        
-//      index(pääsivu) -> alue -> ketju
         get("/index", (req, res) -> {
             return "<h1>Index page</h1>"
                     + "<br/>"
                     + "<h3><a href=\"alueet\">Alueet</a></h3>";
         });
+//        get("/index", (req, res) -> {
+//            HashMap map = new HashMap<>();
+//            map.put("alueet", alueet);
+//
+//            return new ModelAndView(map, "index");
+//        }, new ThymeleafTemplateEngine());
 
         get("/alueet", (req, res) -> {
             String a = "<h2>Otsikko</h2>"
@@ -48,6 +44,7 @@ public class TestiMain {
                     + "<form method=\"POST\" action=\"/alueet\">\n"
                     + "Uusi alue:<br/>\n"
                     + "<input type=\"text\" name=\"subforum\"/><br/>\n"
+                    + "<input type=\"submit\" value=\"Lisää alue\"/>"
                     + "</form>";
         });
 
@@ -63,7 +60,7 @@ public class TestiMain {
         // Alueen ketjut
         get("/alueet/:alue", (req, res) -> {
             int alue = Integer.parseInt(req.params("alue"));
-            List<Ketju> ketjut = dao.getKetjut(alue, 0);;
+            List<Ketju> ketjut = dao.getKetjut(alue, 0);
             String k = "<h2>Otsikko</h2>"
                     + "<br>"
                     + "<h3><a href=\"/alueet\">Takaisin</a></h3>"
@@ -77,6 +74,7 @@ public class TestiMain {
                     + "<form method=\"POST\" action=\"/alueet/" + alue + "\">\n"
                     + "Uusi ketju:<br/>\n"
                     + "<input type=\"text\" name=\"thread\"/><br/>\n"
+                    + "<input type=\"submit\" value=\"Lisää ketju\"/>"
                     + "</form>";
         });
 
@@ -101,51 +99,34 @@ public class TestiMain {
                     + "<h3><a href=\"/alueet/" + alue + "\">Takaisin</a></h3>"
                     + "<br>";
             for (Viesti viesti : viestit) {
-                String alueenNimi = viesti.getTeksti();
-                v += alueenNimi + "<br/>";
+                String viestinTeksti = viesti.getTeksti();
+                String kayttajaNimi = viesti.getKayttajaNimi();
+                v += kayttajaNimi + ": " + viestinTeksti + "<br/>";
             }
             return v
                     + "<form method=\"POST\" action=\"/alueet/" + alue + "/" + ketju + "\">\n"
+                    + "Nimi:<br/>\n"
+                    + "<input type=\"text\" name=\"kayttaja\"/><br/>\n"
                     + "Viesti:<br/>\n"
                     + "<input type=\"text\" name=\"viesti\"/><br/>\n"
+                    + "<input type=\"submit\" value=\"Lisää viesti\"/>"
                     + "</form>";
         });
 
         post("/alueet/:alue/:ketju", (req, res) -> {
             String viesti = req.queryParams("viesti");
+            String kayttaja = req.queryParams("kayttaja");
             int alue = Integer.parseInt(req.params("alue"));
             int ketju = Integer.parseInt(req.params("ketju"));
-
-            dao.setViesti(ketju, 1, viesti);
+            int kayttajaId = dao.getKayttajaId(kayttaja);
+            if (kayttajaId == -1) {
+                //mitä tässä?
+            }
+            dao.setViesti(ketju, kayttajaId, viesti);
             return "Viestisi: '" + viesti + "' lisätty keskusteluun!"
                     + "<br/>"
                     + "<h3><a href=\"/alueet/" + alue + "/" + ketju + "\">Eteenpäin</a></h3>";
         });
-
-        /*
-         for (Alue alue : alueet) {
-         String alueenNimi = linkify(alue.getNimi());
-         get("/" + alueenNimi, (req, res) -> {
-         return "";
-         });
-         }
-         */
-//        return "<form method=\"POST\" action=\"/alue1\">\n"
-//                + "Lähettäjä:<br/>\n"
-//                + "<input type=\"text\" name=\"nimi\"/><br/>\n"
-//                + "<input type=\"submit\" value=\"Lisää ketju\"/>\n"
-//                + "</form>";
-//        post("/alue1", (req, res) -> {
-//            String nimi = req.queryParams("nimi");
-//            return "Uusi ketju lisätty: " + nimi;
-//        });
         //dao.connectionClose();
-    }
-
-    public static String linkify(String str) {
-        String rv = Normalizer.normalize(str, Normalizer.Form.NFD);
-        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-        rv = pattern.matcher(rv).replaceAll("");
-        return rv.replace(' ', '-').replace('#', '-').replace('/', '-').replace('&', '-');
     }
 }

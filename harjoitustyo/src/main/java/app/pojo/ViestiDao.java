@@ -101,10 +101,10 @@ public class ViestiDao {
             //int ketju = rs.getInt(2);
             String aikaTeksti = rs.getString(3);
             String teksti = rs.getString(4);
-            String kayttaja = rs.getString(5);
+            String kayttajaNimi = rs.getString(5);
             Timestamp aika = Timestamp.valueOf(aikaTeksti);
             
-            rivit.add(new Viesti(id, ketjuId, kayttaja, aika, teksti));
+            rivit.add(new Viesti(id, ketjuId, kayttajaNimi, aika, teksti));
         }
         stmt.close();
         rs.close();
