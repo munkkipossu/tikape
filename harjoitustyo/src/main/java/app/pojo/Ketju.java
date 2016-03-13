@@ -27,7 +27,7 @@ public class Ketju {
         this.aika = aika;
     }
 
-    public Integer getKetjuId() {
+    public int getKetjuId() {
         return ketjuId;
     }
 
@@ -49,6 +49,10 @@ public class Ketju {
 
     public void setAvaus(String avaus) {
         this.avaus = avaus;
+    }
+
+    public Timestamp getAika() {
+        return aika;
     }
 
     public int getLkm() {

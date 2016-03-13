@@ -18,6 +18,10 @@
             <ul>
                 <li th:each="alue: ${alueet}">
                     <span th:text="${alue.nimi}">Alue of no value</span>
+
+                    <!-- Will produce 'http://localhost:8080/gtvg/order/details?orderId=3' (plus rewriting) -->
+                    <!--<a href="details.html" -->
+                    <!--th:href="@{http://localhost:8080/gtvg/order/details(orderId=${o.id})}">view</a>-->
                 </li>
             </ul>
         </div>
