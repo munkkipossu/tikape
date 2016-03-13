@@ -21,7 +21,14 @@ public class TestiMain {
             port(Integer.valueOf(System.getenv("PORT")));
         }
         
-        ViestiDao dao = new ViestiDao("testi.db");
+         // käytetään oletuksena paikallista sqlite-tietokantaa
+        String jdbcOsoite = "jdbc:sqlite:testi.db";
+        // jos heroku antaa käyttöömme tietokantaosoitteen, otetaan se käyttöön
+        if (System.getenv("DATABASE_URL") != null) {
+            jdbcOsoite = System.getenv("DATABASE_URL");
+        } 
+       
+        ViestiDao dao = new ViestiDao(jdbcOsoite);
         List<Alue> alueet = dao.getAlueet();
 
         get("/index", (req, res) -> {

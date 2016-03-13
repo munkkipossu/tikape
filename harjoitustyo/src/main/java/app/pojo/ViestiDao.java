@@ -15,7 +15,7 @@ public class ViestiDao {
     
     public ViestiDao(String db) throws SQLException {
         try {
-            yhteys = DriverManager.getConnection("jdbc:sqlite:" + db);
+            yhteys = DriverManager.getConnection(db);
             System.out.println("Yhteys tietokantaan toimii!");
         } catch (Exception e) {
             System.out.println("Virhe " + e);
