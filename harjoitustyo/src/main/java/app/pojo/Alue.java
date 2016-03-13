@@ -45,4 +45,8 @@ public class Alue {
     public int getLkm() {
         return lkm;
     }
+
+    public Timestamp getAika() {
+        return aika;
+    }
 }
