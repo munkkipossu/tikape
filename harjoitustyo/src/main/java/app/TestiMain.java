@@ -15,6 +15,12 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 public class TestiMain {
 
     public static void main(String[] args) throws Exception {
+        
+        // asetetaan portti jos heroku antaa PORT-ympäristömuuttujan
+        if (System.getenv("PORT") != null) {
+            port(Integer.valueOf(System.getenv("PORT")));
+        }
+        
         ViestiDao dao = new ViestiDao("testi.db");
         List<Alue> alueet = dao.getAlueet();
 
