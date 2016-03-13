@@ -1,1 +1,1 @@
-web:    java -cp target/classes:target/dependency/* harjoitustyo.app.Main
+web:    java -cp target/classes:target/dependency/* harjoitustyo.Main
