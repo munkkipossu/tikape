@@ -44,7 +44,20 @@ public class TestiMain {
                 int alueenId = alue.getAlueId();
                 a += "<a href=\"/alueet/" + alueenId + "\">" + alueenNimi + "</a>" + "<br/>";
             }
-            return a;
+            return a
+                    + "<form method=\"POST\" action=\"/alueet\">\n"
+                    + "Uusi alue:<br/>\n"
+                    + "<input type=\"text\" name=\"subforum\"/><br/>\n"
+                    + "</form>";
+        });
+
+        post("/alueet", (req, res) -> {
+            String alue = req.queryParams("subforum");
+
+            //tähän daon metodi joka lisää alueen;
+            return "Alue: '" + alue + "' lisätty foorumiin!"
+                    + "<br/>"
+                    + "<h3><a href=\"alueet\">Eteenpäin</a></h3>";
         });
 
         // Alueen ketjut
@@ -60,7 +73,21 @@ public class TestiMain {
                 int ketjuId = ketju.getKetjuId();
                 k += "<a href=\"/alueet/" + alue + "/" + ketjuId + "\">" + ketjunAvaus + "</a>" + "<br/>";
             }
-            return k;
+            return k
+                    + "<form method=\"POST\" action=\"/alueet/" + alue + "\">\n"
+                    + "Uusi ketju:<br/>\n"
+                    + "<input type=\"text\" name=\"thread\"/><br/>\n"
+                    + "</form>";
+        });
+
+        post("/alueet/:alue", (req, res) -> {
+            String ketju = req.queryParams("thread");
+            int alue = Integer.parseInt(req.params("alue"));
+
+            //tähän daon metodi joka lisää ketjun;
+            return "Ketju: '" + ketju + "' lisätty alueeseen!"
+                    + "<br/>"
+                    + "<h3><a href=\"/alueet/" + alue + "\">Eteenpäin</a></h3>";
         });
 
         // Kejtun viestit
@@ -90,7 +117,9 @@ public class TestiMain {
             int ketju = Integer.parseInt(req.params("ketju"));
 
             dao.setViesti(ketju, 1, viesti);
-            return "";
+            return "Viestisi: '" + viesti + "' lisätty keskusteluun!"
+                    + "<br/>"
+                    + "<h3><a href=\"/alueet/" + alue + "/" + ketju + "\">Eteenpäin</a></h3>";
         });
 
         /*
