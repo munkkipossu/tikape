@@ -24,24 +24,16 @@ public class Main {
         }
 
         ViestiDao dao = new ViestiDao(jdbcOsoite);
-        List<Alue> alueet = dao.getAlueet();
 
         get("/", (req, res) -> {
             res.redirect("/alueet");
             return "Redirect ei toiminut. <a href=\"alueet\">Sinun pitäisi olla täällä</a>";
         });
-//        get("/index", (req, res) -> {
-//            HashMap map = new HashMap<>();
-//            map.put("alueet", alueet);
-//
-//            return new ModelAndView(map, "index");
-//        }, new ThymeleafTemplateEngine());
 
         get("/alueet", (req, res) -> {
             String a = "<h2>Otsikko</h2>"
-                    + "<br>"
-                    + "<h3><a href=\"/\">Takaisin</a></h3>"
                     + "<br>";
+            List<Alue> alueet = dao.getAlueet();
             for (Alue alue : alueet) {
                 String alueenNimi = alue.getNimi();
                 int alueenId = alue.getAlueId();
@@ -61,7 +53,7 @@ public class Main {
         post("/alueet", (req, res) -> {
             String alue = req.queryParams("subforum");
 
-            //tähän daon metodi joka lisää alueen   <---------------------------
+            dao.addAlue(alue);
             return "Alue: '" + alue + "' lisätty foorumiin!"
                     + "<br/>"
                     + "<h3><a href=\"alueet\">Eteenpäin</a></h3>";
@@ -104,7 +96,7 @@ public class Main {
             String ketju = req.queryParams("thread");
             int alue = Integer.parseInt(req.params("alue"));
 
-            //tähän daon metodi joka lisää ketjun   <---------------------------
+            dao.addKetju(alue, ketju);
             return "Ketju: '" + ketju + "' lisätty alueeseen!"
                     + "<br/>"
                     + "<h3><a href=\"/alueet/" + alue + "/show/0\">Eteenpäin</a></h3>";
@@ -151,9 +143,9 @@ public class Main {
             int ketju = Integer.parseInt(req.params("ketju"));
             int kayttajaId = dao.getKayttajaId(kayttaja);
             if (kayttajaId == -1) {
-                //luo uusi käyttäjä   <-----------------------------------------
+                kayttajaId = dao.addKayttaja(kayttaja);
             }
-            dao.setViesti(ketju, kayttajaId, viesti);
+            dao.addViesti(ketju, kayttajaId, viesti);
             return "Viestisi: '" + viesti + "' lisätty keskusteluun!"
                     + "<br/>"
                     + "<h3><a href=\"/alueet/" + alue + "/" + ketju + "/show/0\">Eteenpäin</a></h3>";
