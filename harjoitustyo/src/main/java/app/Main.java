@@ -4,18 +4,26 @@ import app.pojo.Alue;
 import app.pojo.Ketju;
 import app.pojo.Viesti;
 import app.pojo.ViestiDao;
-import java.text.Normalizer;
-import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Pattern;
-import spark.ModelAndView;
 import static spark.Spark.*;
-import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
-public class TestiMain {
+public class Main {
 
     public static void main(String[] args) throws Exception {
-        ViestiDao dao = new ViestiDao("testi.db");
+
+        // asetetaan portti jos heroku antaa PORT-ympäristömuuttujan
+        if (System.getenv("PORT") != null) {
+            port(Integer.valueOf(System.getenv("PORT")));
+        }
+
+        // käytetään oletuksena paikallista sqlite-tietokantaa
+        String jdbcOsoite = "jdbc:sqlite:testi.db";
+        // jos heroku antaa käyttöömme tietokantaosoitteen, otetaan se käyttöön
+        if (System.getenv("DATABASE_URL") != null) {
+            jdbcOsoite = System.getenv("DATABASE_URL");
+        }
+
+        ViestiDao dao = new ViestiDao(jdbcOsoite);
         List<Alue> alueet = dao.getAlueet();
 
         get("/", (req, res) -> {
